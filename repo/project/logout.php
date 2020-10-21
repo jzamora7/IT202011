@@ -8,6 +8,6 @@ session_unset();
 session_destroy();
 echo "You're logged out (proof by dumping the session)<br>";
 echo "<pre>" . var_export($_SESSION, true) . "</pre>";
-//sleep(3)
+sleep(3);
 header("Location: login.php");
 ?>
