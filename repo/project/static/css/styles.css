@@ -2,6 +2,9 @@
 body {
     font-family: system;
     font-size: 1.5em;
+    background-color: antiquewhite;
+    background-image: link
+
 }
 
 ul[class="nav"]{
@@ -9,11 +12,12 @@ ul[class="nav"]{
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #026e02;
+    background-color: #cc7575;
+
 }
 
 .nav > li {
-    float: left;
+    float: right;
 }
 
 .nav > li a {
@@ -25,7 +29,7 @@ ul[class="nav"]{
 }
 
 .nav > li a:hover {
-    background-color: #39ca40;
+    background-color: #cfccf7;
 }
 
 input, select {
