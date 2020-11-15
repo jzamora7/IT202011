@@ -20,10 +20,12 @@ if (isset($_POST["login"])) {
     $isValid = true;
     if (!isset($email) || !isset($password)) {
         $isValid = false;
+        flash("Email or password missing");
     }
     if (!strpos($email, "@")) {
         $isValid = false;
-        echo "<br>Invalid email<br>";
+        //echo "<br>Invalid email<br>";
+        flash("Invalid email");
     }
     if ($isValid) {
         $db = getDB();
@@ -32,16 +34,18 @@ if (isset($_POST["login"])) {
 
             $params = array(":email" => $email);
             $r = $stmt->execute($params);
-            echo "db returned: " . var_export($r, true);
+            //echo "db returned: " . var_export($r, true);
             $e = $stmt->errorInfo();
             if ($e[0] != "00000") {
-                echo "uh oh something went wrong: " . var_export($e, true);
+                //echo "uh oh something went wrong: " . var_export($e, true);
+                flash("Something went wrong, please try again");
             }
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($result && isset($result["password"])) {
                 $password_hash_from_db = $result["password"];
                 if (password_verify($password, $password_hash_from_db)) {
-                    $stmt = $db->prepare("SELECT Roles.name FROM Roles JOIN UserRoles on Roles.id = UserRoles.role_id where UserRoles.user_id = :user_id and Roles.is_active = 1 and UserRoles.is_active = 1");
+                    $stmt = $db->prepare("
+SELECT Roles.name FROM Roles JOIN UserRoles on Roles.id = UserRoles.role_id where UserRoles.user_id = :user_id and Roles.is_active = 1 and UserRoles.is_active = 1");
                     $stmt->execute([":user_id" => $result["id"]]);
                     $roles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -55,19 +59,21 @@ if (isset($_POST["login"])) {
                         $_SESSION["user"]["roles"] = [];
                     }
                     //on successful login let's serve-side redirect the user to the home page.
-                    header("Location: home.php");
+                    flash("Log in successful");
+                    die(header("Location: home.php"));
                 }
                 else {
-                    echo "<br>Invalid password, get out!<br>";
+                    flash("Invalid password");
                 }
             }
             else {
-                echo "<br>Invalid user<br>";
+                flash("Invalid user");
             }
         }
     }
     else {
-        echo "There was a validation issue";
+        flash("There was a validation issue");
     }
 }
 ?>
+<?php require(__DIR__ . "/partials/flash.php");
