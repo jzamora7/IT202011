@@ -9,8 +9,10 @@ if (!has_role("Admin")) {
 <form method="POST">
 	<label>User Name</label>
 	<input name="name" placeholder="Name"/>
+
 	<label>Score</label>
 	<input type="number" min="1" name="score_num"/>
+
 	<input type="submit" name="save" value="Create"/>
 </form>
 
@@ -18,13 +20,14 @@ if (!has_role("Admin")) {
 if(isset($_POST["save"])){
 	//TODO add proper validation/checks
 	$name = $_POST["name"];
-	$br = $_POST["score_num"];
+	$score = $_POST["score_num"];
 	$nst = date('Y-m-d H:i:s');//calc
 	$user = get_user_id();
 	$db = getDB();
-	$stmt = $db->prepare("INSERT INTO F20_Eggs (name, state, base_rate, mod_min, mod_max, next_stage_time, user_id) VALUES(:name, :state, :br, :min,:max,:nst,:user)");
+	$stmt = $db->prepare("INSERT INTO 006_create_table_scores (name, score_num, next_stage_time, user_id) VALUES(:name,:score, :nst,:user)");
 	$r = $stmt->execute([
 		":name"=>$name,
+		":score"=>$score,
 		":nst"=>$nst,
 		":user"=>$user
 	]);
