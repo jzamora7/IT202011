@@ -14,7 +14,6 @@ if (!has_role("Admin")) {
 
 <?php
 if(isset($_POST["save"])){
-	//TODO add proper validation/checks
     $user = get_user_id();
 	$score = $_POST["score"];
 	$db = getDB();
