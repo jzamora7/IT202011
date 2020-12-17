@@ -16,7 +16,7 @@ if (!has_role("Admin")) {
 if(isset($_POST["save"])){
 	//TODO add proper validation/checks
     $user = get_user_id();
-	$score = $_POST["score_num"];
+	$score = $_POST["score"];
 	$db = getDB();
 	$stmt = $db->prepare("INSERT INTO Scores (user_id, score) VALUES(:user, :score)");
 	$r = $stmt->execute([
