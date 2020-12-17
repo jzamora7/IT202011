@@ -15,15 +15,13 @@ if (!has_role("Admin")) {
 <?php
 if(isset($_POST["save"])){
 	//TODO add proper validation/checks
+    $user = get_user_id();
 	$score = $_POST["score_num"];
-	$nst = date('Y-m-d H:i:s');//calc
-	$user = get_user_id();
 	$db = getDB();
-	$stmt = $db->prepare("INSERT INTO 006_create_table_scores (score_num, next_stage_time, user_id) VALUES(:score, :nst,:user)");
+	$stmt = $db->prepare("INSERT INTO Scores (user_id, score_num) VALUES(:user, :score)");
 	$r = $stmt->execute([
-		":score"=>$score,
-		":nst"=>$nst,
-		":user"=>$user
+        ":user"=>$user,
+		":score"=>$score
 	]);
 	if($r){
 		flash("Created successfully with id: " . $db->lastInsertId());
