@@ -8,7 +8,7 @@ if (!has_role("Admin")) {
 ?>
 <form method="POST">
 	<label>Score</label>
-	<input type="number" min="1" name="score_num"/>
+	<input type="number" min="1" name="score"/>
 	<input type="submit" name="save" value="Create"/>
 </form>
 
@@ -18,7 +18,7 @@ if(isset($_POST["save"])){
     $user = get_user_id();
 	$score = $_POST["score_num"];
 	$db = getDB();
-	$stmt = $db->prepare("INSERT INTO Scores (user_id, score_num) VALUES(:user, :score)");
+	$stmt = $db->prepare("INSERT INTO Scores (user_id, score) VALUES(:user, :score)");
 	$r = $stmt->execute([
         ":user"=>$user,
 		":score"=>$score
