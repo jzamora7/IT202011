@@ -7,8 +7,8 @@ if (!has_role("Admin")) {
 }
 ?>
 <?php
-if(isset($_GET["id"])){
-    $id = $_GET["id"];
+if(isset($_GET["user_id"])){
+    $id = $_GET["user_id"];
 }
 ?>
 
@@ -41,11 +41,11 @@ if(isset($_POST["save"])){
 <?php
 $result = [];
 if (isset($id)){
-    $id = $_GET["id"];
+    $id = $_GET["user_id"];
     $db = getDB();
     $stmt = $db->prepare("SELECT * FROM Scores where id = :id");
     $r = $stmt->execute([":id"=>$id]);
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);zend_version()
 }
 ?>
 
